@@ -1,0 +1,37 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean class="ru.task.utils.JsonObjectMapper" id="objectMapper"/>
+
+    <!--<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>-->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <context:component-scan base-package="ru.task.controller"/>
+    <!--  all resources inside folder src/main/webapp/resources are mapped so they can be referred to inside JSP files -->
+    <!--<mvc:resources mapping="/resources/**" location="/resources/"/>-->
+
+    <!--<bean name="handlerMapping"-->
+          <!--class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">-->
+        <!--<property name="useTrailingSlashMatch" value="true"></property>-->
+    <!--</bean>-->
+</beans>
